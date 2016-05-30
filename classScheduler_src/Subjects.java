@@ -2,7 +2,7 @@ package classScheduler_src;
 
 public class Subjects {
 	private int year = 0, department = 0, haveChoosenSubject;
-	private String subjectTitle = "", professor = "";
+	private String subjectTitle, professor = "";
 	private boolean lab;
 
 	public Subjects(int department, int year, String subjectTitle, String professor, int haveChoosenSubject,

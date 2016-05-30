@@ -1,7 +1,6 @@
 package classScheduler_src;
 
 import java.util.Random;
-
 import classSchedulerUI.MainFrame;
 
 public class Algorithm {
@@ -16,57 +15,25 @@ public class Algorithm {
 		this.frame = frame;
 	}
 
-	public Week[][] runAlgorithm() {
-		matrix = newMatrix();
-		int iteration = 0;
-		matrix = fill(matrix);
-		Week[][] current = matrix;
-		matrix = newMatrix();
-		Week[][] next;
-		while (iteration < 100000) {
-			int l = 0;
-			while (l < cp.getSubjectsCount()) {
-				int dita = rand.nextInt(5), kolona = rand.nextInt(cp.getRooms().size()), b = rand.nextInt(7);
-				if (cond.test(matrix, cp, dita, b, kolona, l)) {
-					matrix[dita][b].addSubjectToScheduler(kolona, cp.getSubjects().get(l));
-					l++;
-				}
-			}
-			next = matrix;
-			if (h(next) > h(current)) {
-				current = next;
-				frame.updateText("" + h(current));
-			}
-			matrix = newMatrix();
-			iteration++;
+	public Week[][] runAlgorithm(int start, int finish) {
+		Week[][] current = fill(matrix = newMatrix(), 0);
+		while (++start < finish) {
+			Week[][] next = fill(matrix = newMatrix(), 0);
+			if (h(next, 0) < h(current, 0))
+				continue;
+			current = next;
+			frame.updateText("" + h(current, 0), 0);
 		}
 		return current;
 	}
 
-	private Week[][] fill(Week[][] fillMatrix) {
-		for (int l = 0; l < cp.getSubjectsCount();) {
-			int i = rand.nextInt(5), j = rand.nextInt(7), k = rand.nextInt(cp.getRooms().size());
-			if (cond.test(matrix, cp, i, j, k, l)) {
-				fillMatrix[i][j].addSubjectToScheduler(k, cp.getSubjects().get(l));
-				l++;
-			}
+	private Week[][] fill(Week[][] fillMatrix, int start) {
+		int day = rand.nextInt(5), interval = rand.nextInt(7), c_class = rand.nextInt(cp.getRooms().size());
+		if (cond.test(matrix, cp, day, interval, c_class, start)) {
+			fillMatrix[day][interval].addSubjectToScheduler(c_class, cp.getSubjects().get(start));
+			start++;
 		}
-		return fillMatrix;
-	}
-
-	private double h(Week[][] checkMatrix) {
-		double max = 0;
-		for (int i = 0; i < checkMatrix.length; i++) {
-			for (int j = 0; j < checkMatrix[0].length; j++) {
-				for (int k = 0; k < 7; k++) {
-					if (!checkMatrix[i][j].getFreeClass(k)) {
-						max += (new Double(checkMatrix[i][j].haveChoosenSubject(k)).doubleValue()
-								/ new Double(checkMatrix[i][j].getClassCapacity(k)).doubleValue());
-					}
-				}
-			}
-		}
-		return max;
+		return (start < cp.getSubjectsCount() ? fill(fillMatrix, start) : fillMatrix);
 	}
 
 	private Week[][] newMatrix() {
@@ -77,5 +44,19 @@ public class Algorithm {
 			}
 		}
 		return matrx;
+	}
+
+	private double h(Week[][] checkMatrix, double maxValue) {
+		for (int i = 0; i < checkMatrix.length; i++) {
+			for (int j = 0; j < checkMatrix[0].length; j++) {
+				for (int k = 0; k < 7; k++) {
+					if (checkMatrix[i][j].getFreeClass(k))
+						continue;
+					maxValue += (new Double(checkMatrix[i][j].haveChoosenSubject(k)).doubleValue()
+							/ new Double(checkMatrix[i][j].getClassCapacity(k)).doubleValue());
+				}
+			}
+		}
+		return maxValue;
 	}
 }

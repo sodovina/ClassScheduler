@@ -1,9 +1,9 @@
 package classScheduler_src;
 
 public class Classes {
-	//Department = 1 Shkenca Kompjuterike
-	//Department = 2 Matematike
-	//Department = 3 Matematike Financiare
+	// Department = 1 Shkenca Kompjuterike
+	// Department = 2 Matematike
+	// Department = 3 Matematike Financiare
 	private boolean lab, freeClass = true;
 	private String className, professor = "", subjectTitle = "";
 	private int number_of_students = 0, department = 0, classCapacity = 0, year = 0;
@@ -14,12 +14,12 @@ public class Classes {
 		this.classCapacity = classCapacity;
 	}
 
-	public void addSubject(Subjects s) {
-		professor = s.getProfessor();
-		subjectTitle = s.getSubjectTitle();
-		department = s.getDepartment();
-		year = s.getYear();
-		number_of_students = s.getStudentsNumber();
+	public void addSubject(Subjects sub) {
+		professor = sub.getProfessor();
+		subjectTitle = sub.getSubjectTitle();
+		department = sub.getDepartment();
+		year = sub.getYear();
+		number_of_students = sub.getStudentsNumber();
 		freeClass = false;
 	}
 
