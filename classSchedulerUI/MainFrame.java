@@ -9,21 +9,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-
 import classSchedulerExporter.ExportToXLS;
 import classScheduler_src.Algorithm;
 import classScheduler_src.ConfigParser;
-import classScheduler_src.Week;
 
 public class MainFrame extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2047309250954286106L;
 	private ConfigParser cp;
-	private JLabel status = new JLabel("Status:");
-	private JLabel status_text = new JLabel("Idle");
-	private JLabel h_text = new JLabel("");
+	private JLabel status = new JLabel("Status:"), status_text = new JLabel("Idle"), h_text = new JLabel(""),
+			time_label = new JLabel("");
 
 	public MainFrame() {
 		Container cp = getContentPane();
@@ -46,7 +40,10 @@ public class MainFrame extends JFrame {
 
 		status.setBounds(10, 200, 40, 25);
 		cp.add(status);
-		status_text.setBounds(55, 200, 150, 25);
+		time_label.setBounds(10, 180, 300, 25);
+		time_label.setForeground(Color.BLUE);
+		cp.add(time_label);
+		status_text.setBounds(55, 200, 200, 25);
 		status_text.setForeground(Color.red);
 		cp.add(status_text);
 		status = new JLabel("h(x):");
@@ -61,7 +58,7 @@ public class MainFrame extends JFrame {
 						+ "Matematike Financiare. Bazohet ne algoritmin Random "
 						+ "Restart Hill Climbing. Per ta ekzekutuar programin duhet te importoni nje *config file" + ""
 						+ "(i cili duhet te permbaj infot e sallave, profesoreve, lendeve etj.) Pas gjenerimit shkruan rezultatet "
-								+ "duke perdorur JXL API.</html>",
+						+ "duke perdorur JXL API.</html>",
 				SwingConstants.CENTER);
 		disclaimer.setBounds(10, 0, 350, 150);
 		cp.add(disclaimer);
@@ -76,26 +73,19 @@ public class MainFrame extends JFrame {
 	public void getPath(String path) {
 		cp = new ConfigParser(path);
 		status_text.setText("Config file Loaded!");
-		revalidate();
-		repaint();
 	}
 
-	public void updateText(String input) {
-		h_text.setText(input);
-		revalidate();
-		repaint();
+	public void updateText(String input, int i) {
+		if (i == 0)
+			h_text.setText(input);
+		else
+			time_label.setText(input);
 	}
 
 	public void runApp() {
 		if (cp != null) {
 			status_text.setText("Running!");
-			revalidate();
-			repaint();
-			Algorithm a = new Algorithm(cp, this);
-			Week[][] k = new Week[5][7];
-			k = a.runAlgorithm();
-			status_text.setText("Finished (Exporting)!");
-			new ExportToXLS(k);
+			new ExportToXLS(new Algorithm(cp, this).runAlgorithm(0, 100000));
 			status_text.setText("Finished (Exported)!");
 		} else
 			JOptionPane.showMessageDialog(null, "Select config file first!");

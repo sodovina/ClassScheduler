@@ -3,16 +3,11 @@ package classSchedulerUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Open extends JMenuItem implements ActionListener {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2685806301646457391L;
 	private MainFrame frame;
 
@@ -22,7 +17,6 @@ public class Open extends JMenuItem implements ActionListener {
 		addActionListener(this);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		File file;
 		JFileChooser fileChooser = new JFileChooser();
