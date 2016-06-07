@@ -4,49 +4,39 @@ import java.util.ArrayList;
 
 public class Week {
 
-	ArrayList<Classes> classes;
+	private ArrayList<Classes> classes;
 
 	public Week(ArrayList<Classes> k) {
 		classes = k;
+	}
+
+	public ArrayList<Classes> getClasses() {
+		return classes;
 	}
 
 	public void addSubjectToScheduler(int i, Subjects s) {
 		classes.get(i).addSubject(s);
 	}
 
-	public int getDepartment(int i) {
-		return classes.get(i).getDepartment();
-	}
-
-	public int getYear(int i) {
-		return classes.get(i).getYear();
-	}
-
-	public boolean getFreeClass(int i) {
-		return classes.get(i).freeClass();
-	}
-
-	public boolean isLab(int i) {
-		return classes.get(i).isLab();
-	}
-
-	public String getClassName(int i) {
-		return classes.get(i).getClassName();
-	}
-
-	public String getSubjectTitle(int i) {
-		return classes.get(i).getSubjectTitle();
-	}
-
-	public String getProfessor(int i) {
-		return classes.get(i).getProfessor();
-	}
-
-	public int getClassCapacity(int i) {
-		return classes.get(i).getClassCapacity();
-	}
-
-	public int haveChoosenSubject(int i) {
-		return classes.get(i).getStudentsNumber();
+	public <E> E get(String name, Class<E> type, int i) {
+		if (name.contains("studentsNumber"))
+			return type.cast(classes.get(i).getStudentsNumber());
+		else if (name.contains("lab"))
+			return type.cast(classes.get(i).isLab());
+		else if (name.contains("year"))
+			return type.cast(classes.get(i).getYear());
+		else if (name.contains("subjectTitle"))
+			return type.cast(classes.get(i).getSubjectTitle());
+		else if (name.contains("professor"))
+			return type.cast(classes.get(i).getProfessor());
+		else if (name.contains("department"))
+			return type.cast(classes.get(i).getDepartment());
+		else if (name.contains("freeClass"))
+			return type.cast(classes.get(i).freeClass());
+		else if (name.contains("className"))
+			return type.cast(classes.get(i).getClassName());
+		else if (name.contains("classCapacity"))
+			return type.cast(classes.get(i).getClassCapacity());
+		return null;
 	}
 }

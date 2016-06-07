@@ -5,7 +5,7 @@ public class Classes {
 	// Department = 2 Matematike
 	// Department = 3 Matematike Financiare
 	private boolean lab, freeClass = true;
-	private String className, professor = "", subjectTitle = "";
+	private String className, professor = "", subjectTitle;
 	private int number_of_students = 0, department = 0, classCapacity = 0, year = 0;
 
 	public Classes(String className, int classCapacity, boolean lab) {
@@ -15,11 +15,11 @@ public class Classes {
 	}
 
 	public void addSubject(Subjects sub) {
-		professor = sub.getProfessor();
-		subjectTitle = sub.getSubjectTitle();
-		department = sub.getDepartment();
-		year = sub.getYear();
-		number_of_students = sub.getStudentsNumber();
+		professor = sub.getC("professor", String.class);
+		subjectTitle = sub.getC("subjectTitle", String.class);
+		department = sub.getC("department", Integer.class);
+		year = sub.getC("year", Integer.class);
+		number_of_students = sub.getC("studentsNumber", Integer.class);
 		freeClass = false;
 	}
 

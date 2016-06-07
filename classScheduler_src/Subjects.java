@@ -15,27 +15,19 @@ public class Subjects {
 		this.lab = lab;
 	}
 
-	public int getStudentsNumber() {
-		return haveChoosenSubject;
-	}
-
-	public int getYear() {
-		return year;
-	}
-
-	public int getDepartment() {
-		return department;
-	}
-
-	public String getSubjectTitle() {
-		return subjectTitle;
-	}
-
-	public boolean isLab() {
-		return lab;
-	}
-
-	public String getProfessor() {
-		return professor;
+	public <E> E getC(String name, Class<E> type) {
+		if (name.contains("studentsNumber"))
+			return type.cast(haveChoosenSubject);
+		else if (name.contains("lab"))
+			return type.cast(lab);
+		else if (name.contains("year"))
+			return type.cast(year);
+		else if (name.contains("subjectTitle"))
+			return type.cast(subjectTitle);
+		else if (name.contains("professor"))
+			return type.cast(professor);
+		else if (name.contains("department"))
+			return type.cast(department);
+		return null;
 	}
 }

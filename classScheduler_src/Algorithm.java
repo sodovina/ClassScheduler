@@ -19,10 +19,8 @@ public class Algorithm {
 		Week[][] current = fill(matrix = newMatrix(), 0);
 		while (++start < finish) {
 			Week[][] next = fill(matrix = newMatrix(), 0);
-			if (h(next, 0) < h(current, 0))
-				continue;
-			current = next;
-			frame.updateText("" + h(current, 0), 0);
+			current = function(next, 0) < function(current, 0) ? current : next;
+			frame.updateText("" + function(current, 0), 0);
 		}
 		return current;
 	}
@@ -46,14 +44,14 @@ public class Algorithm {
 		return matrx;
 	}
 
-	private double h(Week[][] checkMatrix, double maxValue) {
+	private double function(Week[][] checkMatrix, double maxValue) {
 		for (int i = 0; i < checkMatrix.length; i++) {
 			for (int j = 0; j < checkMatrix[0].length; j++) {
-				for (int k = 0; k < 7; k++) {
-					if (checkMatrix[i][j].getFreeClass(k))
+				for (int k = 0; k < checkMatrix[i][j].getClasses().size(); k++) {
+					if (checkMatrix[i][j].get("freeClass",Boolean.class,k))
 						continue;
-					maxValue += (new Double(checkMatrix[i][j].haveChoosenSubject(k)).doubleValue()
-							/ new Double(checkMatrix[i][j].getClassCapacity(k)).doubleValue());
+					maxValue += (checkMatrix[i][j].get("studentsNumber",Integer.class,k) * 1.0
+							/ checkMatrix[i][j].get("classCapacity",Integer.class,k)*1.0);
 				}
 			}
 		}
