@@ -10,12 +10,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import classSchedulerExporter.ExportToXLS;
+import classSchedulerExporter.ExportToXLS2;
+import classSchedulerExporter.ExportToXLS3;
 import classScheduler_src.Algorithm;
 import classScheduler_src.ConfigParser;
+import classScheduler_src.Week;
 
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = -2047309250954286106L;
 	private ConfigParser cp;
+	private int export_format = 1;
 	private JLabel status = new JLabel("Status:"), status_text = new JLabel("Idle"), h_text = new JLabel(""),
 			time_label = new JLabel("");
 
@@ -32,6 +36,11 @@ public class MainFrame extends JFrame {
 		file = new ExitMenu("Exit");
 		menu.add(file);
 		menuBar.add(menu);
+		menu = new JMenu("Tools");
+		file = new ChangeExport("Change export format", this);
+		menu.add(file);
+		menuBar.add(menu);
+
 		menu = new JMenu("About");
 		file = new About("Usage");
 		menu.add(file);
@@ -82,12 +91,33 @@ public class MainFrame extends JFrame {
 			time_label.setText(input);
 	}
 
+	public void setExportFormat(int i) {
+		export_format = i;
+	}
+
 	public void runApp() {
 		if (cp != null) {
 			status_text.setText("Running!");
-			new ExportToXLS(new Algorithm(cp, this).runAlgorithm(0, 100000));
+			updateText("", 1);
+			double start = System.currentTimeMillis();
+			Week[][] t2 = new Algorithm(cp, this).runAlgorithm(0, 20000);
+			if (export_format == 0)
+				new ExportToXLS(t2);
+			else if (export_format == 1)
+				new ExportToXLS3(t2);
+			else if (export_format == 2)
+				new ExportToXLS2(t2);
 			status_text.setText("Finished (Exported)!");
+			double finish = System.currentTimeMillis();
+			double time = finish - start;
+			updateText("Koha e nevojitur per gjenerim: " + getTime(time), 1);
 		} else
 			JOptionPane.showMessageDialog(null, "Select config file first!");
+	}
+
+	private String getTime(double time) {
+		int s;
+		s = (int) time / 1000;
+		return s + " sekonda";
 	}
 }
