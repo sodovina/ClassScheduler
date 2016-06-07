@@ -40,6 +40,7 @@ public class Strings {
 	}
 
 	private void addDepartments() {
+		departments.add("Te gjitha");
 		departments.add("Shkenca Kompjuterike");
 		departments.add("Matematike");
 		departments.add("Matematike Financiare");
@@ -54,7 +55,7 @@ public class Strings {
 	}
 
 	public ArrayList<String> getYears() {
-		return days;
+		return years;
 	}
 
 	public ArrayList<String> getDepartments() {
